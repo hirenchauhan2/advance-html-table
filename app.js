@@ -4,23 +4,68 @@
 
   // get table element
   const table = document.getElementById('advance-table');
-  console.log('🚀 ~ file: app.js:7 ~ app ~ table', table);
   const tbody = table.querySelector('tbody');
-  console.log('🚀 ~ file: app.js:9 ~ app ~ tbody', tbody);
+
+  const paginationEl = document.getElementById('pagination');
+  const prevBtn = paginationEl.querySelector('#prev');
+  const nextBtn = paginationEl.querySelector('#next');
+  const pageSizeSelect = paginationEl.querySelector('select');
+  const pageCountEl = document.getElementById('page');
+  const totalPagesEl = document.getElementById('totalPages');
+
+  const pagination = {
+    page: 1,
+    pageSize: 10,
+    totalItems: 0,
+    totalPages: 0,
+  };
+
+  // set value for page size selector
+  pageSizeSelect.value = pagination.pageSize;
 
   const data = await loadData();
   if (!data) {
     return;
   }
   // initial data loaded with first 10 rows
-  const firstSlice = paginateTableData(data, 1, 10);
+  updateTableAndPagination(data, pagination);
+  /// initial load done
 
-  populateTable(firstSlice.data);
+  // pagination handlers
+  prevBtn.addEventListener('click', (e) => {
+    // go to prev page
+    pagination['page'] -= 1;
 
+    updateTableAndPagination(data, pagination);
+  });
+  nextBtn.addEventListener('click', (e) => {
+    // go to prev page
+    pagination['page'] += 1;
+
+    updateTableAndPagination(data, pagination);
+  });
+
+  // page size select change handler
+  pageSizeSelect.addEventListener('change', (e) => {
+    const value = parseInt(e.target.value, 10);
+    pagination['pageSize'] = value;
+    updateTableAndPagination(data, pagination);
+  });
+
+  function updateTableAndPagination(data, pagination) {
+    // update table
+    const slice = paginateTableData(data, pagination.page, pagination.pageSize);
+    populateTable(slice);
+    // update pagination
+    pagination['totalItems'] = slice.totalItems;
+    pagination['totalPages'] = slice.totalPages;
+    updatePaginationView(pagination);
+  }
 
   function populateTable(dataSlice) {
-    console.log("🚀 ~ file: app.js:22 ~ populateTable ~ dataSlice", dataSlice)
-    const rows = dataSlice.map(data => {
+    const start = performance.now();
+    console.log('Populating table...');
+    const rows = dataSlice.data.map((data) => {
       const tr = document.createElement('tr');
 
       Object.entries(data).forEach(([_col, value]) => {
@@ -32,7 +77,36 @@
       return tr;
     });
 
+    // update table data
     tbody.replaceChildren(...rows);
+    const end = performance.now() - start;
+    console.log(`Populated table in ${end}ms`);
+  }
+
+  function updatePaginationView(data) {
+    // update pagination
+    pageCountEl.textContent = data.page;
+    totalPagesEl.textContent = data.totalPages;
+
+    // disable prev button if we're on first page
+    if (data.page === 1) {
+      prevBtn.ariaDisabled = true;
+      prevBtn.setAttribute('disabled', true);
+    } else {
+      // enable prev btn
+      prevBtn.ariaDisabled = false;
+      prevBtn.removeAttribute('disabled');
+    }
+
+    // disable next button if we're on last page
+    if (data.page === data.totalPages) {
+      nextBtn.ariaDisabled = true;
+      nextBtn.setAttribute('disabled', true);
+    } else {
+      // enable prev btn
+      nextBtn.ariaDisabled = false;
+      nextBtn.removeAttribute('disabled');
+    }
   }
 
   async function loadData() {
