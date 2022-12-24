@@ -1,0 +1,7 @@
+.sort {
+  color: lightblue;
+}
+
+.sort.selected {
+  color: darkblue;
+}

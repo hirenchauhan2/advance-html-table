@@ -5,17 +5,49 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Advance HTML Table with Vanilla JS and CSS</title>
+
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div id="app">
       <table border="solid" id="advance-table">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Gender</th>
-            <th>Role</th>
+            <th data-col="id">
+              ID
+              <div class="sortingWrapper">
+                <button class="sort sort-asc" type="button">&#9650;</button>
+                <button class="sort sort-desc" type="button">&#9660;</button>
+              </div>
+            </th>
+            <th data-col="name">
+              Name
+              <div class="sortingWrapper">
+                <button class="sort sort-asc" type="button">&#9650;</button>
+                <button class="sort sort-desc" type="button">&#9660;</button>
+              </div>
+            </th>
+            <th data-col="email">
+              Email
+              <div class="sortingWrapper">
+                <button class="sort sort-asc" type="button">&#9650;</button>
+                <button class="sort sort-desc" type="button">&#9660;</button>
+              </div>
+            </th>
+            <th data-col="gender">
+              Gender
+              <div class="sortingWrapper">
+                <button class="sort sort-asc" type="button">&#9650;</button>
+                <button class="sort sort-desc" type="button">&#9660;</button>
+              </div>
+            </th>
+            <th data-col="role">
+              Role
+              <div class="sortingWrapper">
+                <button class="sort sort-asc" type="button">&#9650;</button>
+                <button class="sort sort-desc" type="button">&#9660;</button>
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody>
