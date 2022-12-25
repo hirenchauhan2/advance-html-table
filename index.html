@@ -4,48 +4,137 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Advance HTML Table with Vanilla JS and CSS</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
 
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div id="app">
-      <table border="solid" id="advance-table">
+      <table width="100%" cellspacing="0" id="advance-table">
         <thead>
           <tr>
             <th data-col="id">
-              ID
-              <div class="sortingWrapper">
-                <button class="sort sort-asc" type="button">&#9650;</button>
-                <button class="sort sort-desc" type="button">&#9660;</button>
+              <div class="th-container">
+                <span>ID</span>
+                <button class="sort" type="button">
+                  <svg
+                    width="14px"
+                    height="14px"
+                    viewBox="0 0 17 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      class="ascending"
+                      d="M16.9706 8.48528L8.48529 0L9.29832e-06 8.48528H16.9706Z"
+                    />
+                    <path
+                      class="descending"
+                      d="M1.00136e-05 12.4853L8.48529 20.9706L16.9706 12.4853L1.00136e-05 12.4853Z"
+                    />
+                  </svg>
+                </button>
               </div>
             </th>
             <th data-col="name">
-              Name
-              <div class="sortingWrapper">
-                <button class="sort sort-asc" type="button">&#9650;</button>
-                <button class="sort sort-desc" type="button">&#9660;</button>
+              <div class="th-container">
+                <span>Name</span>
+                <button class="sort" type="button">
+                  <svg
+                    width="14px"
+                    height="14px"
+                    viewBox="0 0 17 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      class="ascending"
+                      d="M16.9706 8.48528L8.48529 0L9.29832e-06 8.48528H16.9706Z"
+                    />
+                    <path
+                      class="descending"
+                      d="M1.00136e-05 12.4853L8.48529 20.9706L16.9706 12.4853L1.00136e-05 12.4853Z"
+                    />
+                  </svg>
+                </button>
               </div>
             </th>
             <th data-col="email">
-              Email
-              <div class="sortingWrapper">
-                <button class="sort sort-asc" type="button">&#9650;</button>
-                <button class="sort sort-desc" type="button">&#9660;</button>
+              <div class="th-container">
+                <span>Email</span>
+                <button class="sort" type="button">
+                  <svg
+                    width="14px"
+                    height="14px"
+                    viewBox="0 0 17 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      class="ascending"
+                      d="M16.9706 8.48528L8.48529 0L9.29832e-06 8.48528H16.9706Z"
+                    />
+                    <path
+                      class="descending"
+                      d="M1.00136e-05 12.4853L8.48529 20.9706L16.9706 12.4853L1.00136e-05 12.4853Z"
+                    />
+                  </svg>
+                </button>
               </div>
             </th>
             <th data-col="gender">
-              Gender
-              <div class="sortingWrapper">
-                <button class="sort sort-asc" type="button">&#9650;</button>
-                <button class="sort sort-desc" type="button">&#9660;</button>
+              <div class="th-container">
+                <span>Gender</span>
+                <button class="sort" type="button">
+                  <svg
+                    width="14px"
+                    height="14px"
+                    viewBox="0 0 17 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      class="ascending"
+                      d="M16.9706 8.48528L8.48529 0L9.29832e-06 8.48528H16.9706Z"
+                    />
+                    <path
+                      class="descending"
+                      d="M1.00136e-05 12.4853L8.48529 20.9706L16.9706 12.4853L1.00136e-05 12.4853Z"
+                    />
+                  </svg>
+                </button>
               </div>
             </th>
             <th data-col="role">
-              Role
-              <div class="sortingWrapper">
-                <button class="sort sort-asc" type="button">&#9650;</button>
-                <button class="sort sort-desc" type="button">&#9660;</button>
+              <div class="th-container">
+                <span>Role</span>
+                <button class="sort" type="button">
+                  <svg
+                    width="14px"
+                    height="14px"
+                    viewBox="0 0 17 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      class="ascending"
+                      d="M16.9706 8.48528L8.48529 0L9.29832e-06 8.48528H16.9706Z"
+                    />
+                    <path
+                      class="descending"
+                      d="M1.00136e-05 12.4853L8.48529 20.9706L16.9706 12.4853L1.00136e-05 12.4853Z"
+                    />
+                  </svg>
+                </button>
               </div>
             </th>
           </tr>
@@ -59,18 +148,50 @@
         </tbody>
       </table>
       <div id="pagination">
-        <button id="prev" type="button">&lt;</button>
-        <span id="page">0</span>/
-        <span id="totalPages">0</span>
-        <button id="next" type="button">&gt;</button>
-        <label for="pageSize">Page size</label>
-        <select name="pageSize" id="pageSize">
-          <option value="10">10</option>
-          <option value="20">20</option>
-          <option value="30">30</option>
-          <option value="40">40</option>
-          <option value="50">50</option>
-        </select>
+        <div class="progress">
+          <span id="range"></span>
+          of
+          <span id="totalRecords"></span>
+        </div>
+        <div class="page-size">
+          <label for="pageSize" class="pageSize-label">Rows per page: </label>
+          <select name="pageSize" id="pageSize">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+            <option value="50">50</option>
+          </select>
+        </div>
+        <div class="controls">
+          <button id="prev" type="button">
+            <svg
+              width="16px"
+              height="16px"
+              viewBox="0 0 56 56"
+              xmlns="http://www.w3.org/2000/svg"
+              transform="rotate(180)"
+            >
+              <path
+                d="M 18.6953 48.3672 C 19.2813 48.3672 19.7969 48.1328 20.2187 47.7344 L 38.7813 29.5703 C 39.2266 29.1250 39.4609 28.5859 39.4609 28.0000 C 39.4609 27.3906 39.2266 26.8281 38.7813 26.4297 L 20.2187 8.2890 C 19.8203 7.8672 19.2813 7.6328 18.6953 7.6328 C 17.4766 7.6328 16.5391 8.5703 16.5391 9.7890 C 16.5391 10.3515 16.7969 10.9141 17.1718 11.3125 L 34.2109 28.0000 L 17.1718 44.6875 C 16.7969 45.0859 16.5391 45.6250 16.5391 46.2109 C 16.5391 47.4297 17.4766 48.3672 18.6953 48.3672 Z"
+              ></path>
+            </svg>
+          </button>
+          <span> <span id="page">0</span>/<span id="totalPages">0</span> </span>
+          <button id="next" type="button">
+            <svg
+              width="16px"
+              height="16px"
+              viewBox="0 0 56 56"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M 18.6953 48.3672 C 19.2813 48.3672 19.7969 48.1328 20.2187 47.7344 L 38.7813 29.5703 C 39.2266 29.1250 39.4609 28.5859 39.4609 28.0000 C 39.4609 27.3906 39.2266 26.8281 38.7813 26.4297 L 20.2187 8.2890 C 19.8203 7.8672 19.2813 7.6328 18.6953 7.6328 C 17.4766 7.6328 16.5391 8.5703 16.5391 9.7890 C 16.5391 10.3515 16.7969 10.9141 17.1718 11.3125 L 34.2109 28.0000 L 17.1718 44.6875 C 16.7969 45.0859 16.5391 45.6250 16.5391 46.2109 C 16.5391 47.4297 17.4766 48.3672 18.6953 48.3672 Z"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
     <script async src="app.js"></script>

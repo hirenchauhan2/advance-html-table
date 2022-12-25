@@ -13,6 +13,8 @@
   const pageSizeSelect = paginationEl.querySelector('select');
   const pageCountEl = document.getElementById('page');
   const totalPagesEl = document.getElementById('totalPages');
+  const currentRangeEl = document.getElementById('range');
+  const totalItemsEl = document.getElementById('totalRecords');
 
   const pagination = {
     page: 1,
@@ -22,6 +24,8 @@
   };
 
   const SELECTED_SORT_BTN_CLASS = 'selected';
+  const SORT_ASCENDING = 'ascending';
+  const SORT_DESCENDING = 'descending';
 
   // set value for page size selector
   pageSizeSelect.value = pagination.pageSize;
@@ -41,49 +45,22 @@
   thList.forEach((th) => {
     const sortKey = th.dataset.col;
 
-    const sortButtonAsc = th.querySelector('button.sort.sort-asc');
-    const sortButtonDesc = th.querySelector('button.sort.sort-desc');
+    const sortButton = th.querySelector('button.sort');
 
-    sortButtonAsc.addEventListener('click', (e) => {
-      // don't do sorting again on same button if it was previously clicked
-      if (sortButtonAsc.classList.contains(SELECTED_SORT_BTN_CLASS)) {
-        return;
+    sortButton.addEventListener('click', (e) => {
+      let sortOrder = sortButton.classList.contains(SORT_ASCENDING) ? -1 : 1;
+
+      // flip the sorting icon
+      if (sortOrder === 1) {
+        sortButton.classList.add(SORT_ASCENDING);
+        sortButton.classList.remove(SORT_DESCENDING);
+      } else {
+        sortButton.classList.remove(SORT_ASCENDING);
+        sortButton.classList.add(SORT_DESCENDING);
       }
-
-      // remove the desc button's sorting marker if it was selected
-      if (sortButtonDesc.classList.contains(SELECTED_SORT_BTN_CLASS)) {
-        sortButtonDesc.classList.remove(SELECTED_SORT_BTN_CLASS);
-      }
-
-      // mark the button as selected, for highlighting with CSS later
-      sortButtonAsc.classList.add(SELECTED_SORT_BTN_CLASS);
 
       // sort the data
-      sortData(data, sortKey, 1);
-
-      // clear sorting marker on other columns
-      clearSortingMarker(th, thList);
-
-      // update table with sorted data
-      updateTableAndPagination(data, pagination);
-    });
-
-    sortButtonDesc.addEventListener('click', (e) => {
-      // don't do sorting again on same button if it was previously clicked
-      if (sortButtonDesc.classList.contains(SELECTED_SORT_BTN_CLASS)) {
-        return;
-      }
-
-      // remove the asc button's sorting marker if it was selected
-      if (sortButtonAsc.classList.contains(SELECTED_SORT_BTN_CLASS)) {
-        sortButtonAsc.classList.remove(SELECTED_SORT_BTN_CLASS);
-      }
-
-      // mark the button as selected, for highlighting with CSS later
-      sortButtonDesc.classList.add(SELECTED_SORT_BTN_CLASS);
-
-      // sort the data
-      sortData(data, sortKey, -1);
+      sortData(data, sortKey, sortOrder);
 
       // clear sorting marker on other columns
       clearSortingMarker(th, thList);
@@ -122,15 +99,14 @@
         return;
       }
 
-      const sortButtonAsc = thEl.querySelector('button.sort.sort-asc');
-      const sortButtonDesc = thEl.querySelector('button.sort.sort-desc');
+      const sortButton = thEl.querySelector('button.sort');
 
-      if (sortButtonAsc.classList.contains(SELECTED_SORT_BTN_CLASS)) {
-        sortButtonAsc.classList.remove(SELECTED_SORT_BTN_CLASS);
+      if (sortButton.classList.contains(SORT_ASCENDING)) {
+        sortButton.classList.remove(SORT_ASCENDING);
       }
 
-      if (sortButtonDesc.classList.contains(SELECTED_SORT_BTN_CLASS)) {
-        sortButtonDesc.classList.remove(SELECTED_SORT_BTN_CLASS);
+      if (sortButton.classList.contains(SORT_DESCENDING)) {
+        sortButton.classList.remove(SORT_DESCENDING);
       }
     });
   }
@@ -166,13 +142,45 @@
     console.log(`Populated table in ${end}ms`);
   }
 
-  function updatePaginationView(data) {
+  function updatePaginationView(paginationData) {
     // update pagination
-    pageCountEl.textContent = data.page;
-    totalPagesEl.textContent = data.totalPages;
+    pageCountEl.textContent = paginationData.page;
+    totalPagesEl.textContent = paginationData.totalPages;
+
+    // update progress
+    let range = '';
+    if (paginationData.page === 1 && paginationData.totalItems === 0) {
+      range = '0-0';
+      console.log('First page and no items');
+    }
+
+    if (
+      paginationData.page === 1 &&
+      paginationData.totalItems > 0 &&
+      paginationData.totalItems <= paginationData.pageSize
+    ) {
+      console.log('First page and less items');
+      range = `1-${paginationData.totalItems}`;
+    }
+
+    if (
+      paginationData.page >= 1 &&
+      paginationData.totalItems > 0 &&
+      paginationData.totalItems > paginationData.pageSize
+    ) {
+      const start = paginationData.page * paginationData.pageSize + 1;
+      const end =
+        paginationData.page * paginationData.pageSize + paginationData.pageSize;
+      range = `${start - paginationData.pageSize}-${
+        end - paginationData.pageSize
+      }`;
+    }
+
+    currentRangeEl.textContent = range;
+    totalItemsEl.textContent = paginationData.totalItems;
 
     // disable prev button if we're on first page
-    if (data.page === 1) {
+    if (paginationData.page === 1) {
       prevBtn.ariaDisabled = true;
       prevBtn.setAttribute('disabled', true);
     } else {
@@ -182,7 +190,7 @@
     }
 
     // disable next button if we're on last page
-    if (data.page === data.totalPages) {
+    if (paginationData.page === paginationData.totalPages) {
       nextBtn.ariaDisabled = true;
       nextBtn.setAttribute('disabled', true);
     } else {

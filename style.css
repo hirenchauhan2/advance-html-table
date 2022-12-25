@@ -1,7 +1,192 @@
-.sort {
-  color: lightblue;
+:root {
+  --primary: #363daa;
+  --selected: #464f60;
+  --unselected: #a1a9b8;
+  --gray-50: #687182;
 }
 
-.sort.selected {
-  color: darkblue;
+body {
+  padding: 0;
+  margin: 0;
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+#app {
+  width: 75vw;
+  padding: 1rem;
+}
+
+#advance-table {
+  width: 100%;
+  /* remove border spacing between cells */
+  border-spacing: 0;
+  /* collapse the borders between cells */
+  border-collapse: collapse;
+
+  border-bottom: 1px solid #e9edf5;
+}
+
+th,
+td {
+  padding: 0;
+}
+
+#advance-table thead > tr > th {
+  text-transform: uppercase;
+  background-color: rgba(247, 249, 252, 0.8);
+  /* padding: 0.5rem 0.8rem; */
+  color: #687182;
+  font-size: 0.75rem;
+  line-height: 1.125rem;
+  letter-spacing: 0.03rem;
+  height: 2rem;
+}
+
+#advance-table thead > tr > th > .th-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+#advance-table tr {
+  border-bottom: 1px solid #e9edf5;
+}
+
+#advance-table tbody tr:last-child {
+  border: none;
+}
+
+#advance-table tbody > tr {
+  color: #171c26;
+  font-size: 0.875rem;
+  transition: background 300ms ease-out;
+}
+
+#advance-table tbody tr:hover {
+  background: #EDEDFC;
+}
+
+/* give some padding to all cells */
+#advance-table th,
+#advance-table td {
+  padding: 0.625rem 0.875rem;
+}
+
+.sort {
+  flex: 0 0 1rem;
+  padding: 0;
+  /* color: #a1a9b8; */
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sort svg {
+  fill: var(--unselected);
+}
+
+.sort.descending svg .descending,
+.sort.ascending svg .ascending {
+  fill: var(--selected);
+}
+
+#pagination {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 0;
+  gap: 1rem;
+}
+
+#pagination .page-size {
+  margin-left: auto;
+}
+
+#pagination .controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+}
+
+#pagination button {
+  border: 0 none;
+  border-radius: 0.375rem;
+  padding: 0.3rem 0.4rem;
+  background-color: white;
+
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1),
+    0px 0px 0px 1px rgba(70, 79, 96, 0.16);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#pagination button svg {
+  fill: #464f60;
+}
+
+#pagination button:hover {
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1),
+    0px 0px 0px 1px rgba(70, 79, 96, 0.32);
+}
+
+#pagination button:hover svg {
+  fill: #171c26;
+}
+
+#pagination button:focus {
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1),
+    0px 0px 0px 1px rgba(70, 79, 96, 0.32),
+    0px 0px 0px 4px rgba(94, 90, 219, 0.4);
+}
+
+#pagination button:focus svg {
+  fill: #464f60;
+}
+
+#pagination button:disabled {
+  background-color: #f7f9fc;
+  box-shadow: 0px 0px 0px 1px rgba(70, 79, 96, 0.2);
+}
+
+#pagination button:disabled svg {
+  fill: #a1a9b8;
+}
+
+#pagination .page-size,
+#pagination .progress,
+#totalPages {
+  font-size: 0.75rem;
+  color: #687182;
+}
+
+#pagination .page-size {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+#pagination .page-size select {
+  border: 0 none;
+  background-color: white;
+  font-size: 0.75rem;
+  color: #687182;
+  padding: 0;
 }
