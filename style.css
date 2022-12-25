@@ -1,8 +1,12 @@
 :root {
   --primary: #363daa;
-  --selected: #464f60;
-  --unselected: #a1a9b8;
-  --gray-50: #687182;
+  --gray-0: #f7f9fc;
+  --gray-50: #e9edf5;
+  --gray-300: #a1a9b8;
+  --gray-500: #687182;
+  --gray-700: #464f60;
+  --gray-900: #171c26;
+  --indigo-0: #ededfc;
 }
 
 body {
@@ -35,7 +39,7 @@ body {
   /* collapse the borders between cells */
   border-collapse: collapse;
 
-  border-bottom: 1px solid #e9edf5;
+  border-bottom: 1px solid var(--gray-50);
 }
 
 th,
@@ -43,11 +47,21 @@ td {
   padding: 0;
 }
 
+/*
+** make table header stick at the top
+** if list grows largen than page height
+ */
+#advance-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
 #advance-table thead > tr > th {
   text-transform: uppercase;
   background-color: rgba(247, 249, 252, 0.8);
-  /* padding: 0.5rem 0.8rem; */
-  color: #687182;
+  backdrop-filter: blur(4px);
+  color: var(--gray-500);
   font-size: 0.75rem;
   line-height: 1.125rem;
   letter-spacing: 0.03rem;
@@ -61,7 +75,7 @@ td {
 }
 
 #advance-table tr {
-  border-bottom: 1px solid #e9edf5;
+  border-bottom: 1px solid var(--gray-50);
 }
 
 #advance-table tbody tr:last-child {
@@ -69,13 +83,13 @@ td {
 }
 
 #advance-table tbody > tr {
-  color: #171c26;
+  color: var(--gray-900);
   font-size: 0.875rem;
   transition: background 300ms ease-out;
 }
 
 #advance-table tbody tr:hover {
-  background: #EDEDFC;
+  background: #ededfc;
 }
 
 /* give some padding to all cells */
@@ -87,7 +101,6 @@ td {
 .sort {
   flex: 0 0 1rem;
   padding: 0;
-  /* color: #a1a9b8; */
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -97,12 +110,12 @@ td {
 }
 
 .sort svg {
-  fill: var(--unselected);
+  fill: var(--gray-300);
 }
 
 .sort.descending svg .descending,
 .sort.ascending svg .ascending {
-  fill: var(--selected);
+  fill: var(--gray-700);
 }
 
 #pagination {
@@ -139,7 +152,7 @@ td {
 }
 
 #pagination button svg {
-  fill: #464f60;
+  fill: var(--gray-700);
 }
 
 #pagination button:hover {
@@ -148,7 +161,7 @@ td {
 }
 
 #pagination button:hover svg {
-  fill: #171c26;
+  fill: var(--gray-900);
 }
 
 #pagination button:focus {
@@ -158,23 +171,23 @@ td {
 }
 
 #pagination button:focus svg {
-  fill: #464f60;
+  fill: var(--gray-700);
 }
 
 #pagination button:disabled {
-  background-color: #f7f9fc;
+  background-color: var(--gray-0);
   box-shadow: 0px 0px 0px 1px rgba(70, 79, 96, 0.2);
 }
 
 #pagination button:disabled svg {
-  fill: #a1a9b8;
+  fill: var(--gray-300);
 }
 
 #pagination .page-size,
 #pagination .progress,
 #totalPages {
   font-size: 0.75rem;
-  color: #687182;
+  color: var(--gray-500);
 }
 
 #pagination .page-size {
@@ -187,6 +200,6 @@ td {
   border: 0 none;
   background-color: white;
   font-size: 0.75rem;
-  color: #687182;
+  color: var(--gray-500);
   padding: 0;
 }
