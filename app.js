@@ -15,6 +15,10 @@
   const totalPagesEl = document.getElementById('totalPages');
   const currentRangeEl = document.getElementById('range');
   const totalItemsEl = document.getElementById('totalRecords');
+  const selectAllRowsCheckbox = document.getElementById('selectAllRows');
+
+  // checkbox template
+  const checkboxTemplate = document.querySelector('#cell-checkbox');
 
   const pagination = {
     page: 1,
@@ -23,7 +27,8 @@
     totalPages: 0,
   };
 
-  const SELECTED_SORT_BTN_CLASS = 'selected';
+  const selectedRowsState = new Set();
+
   const SORT_ASCENDING = 'ascending';
   const SORT_DESCENDING = 'descending';
 
@@ -37,6 +42,41 @@
   // initial data loaded with first 10 rows
   updateTableAndPagination(data, pagination);
   /// initial load done
+
+  // handle select all rows
+  selectAllRowsCheckbox.addEventListener('change', (e) => {
+    const checked = e.target.checked;
+    const currentSlice = paginateTableData(
+      data,
+      pagination.page,
+      pagination.pageSize
+    );
+
+    if (checked) {
+      const start = performance.now();
+      currentSlice.data.forEach((row) => {
+        selectedRowsState.add(row.id);
+        // mark checkbox as checked
+        const checkbox = tbody.querySelector(`#row-${row.id}`);
+        checkbox.checked = true;
+      });
+      console.log(`Updated the table in ${performance.now() - start}ms`);
+    } else {
+      const start = performance.now();
+
+      currentSlice.data.forEach((row) => {
+        selectedRowsState.delete(row.id);
+
+        const checkbox = tbody.querySelector(`#row-${row.id}`);
+        checkbox.checked = false;
+      });
+      console.log(`Updated the table in ${performance.now() - start}ms`);
+    }
+    console.log(...selectedRowsState);
+
+    // TODO: check if going by selecting each row by querySelector is faster
+    //      or rendering whole tbody is faster
+  });
 
   // sorting setup
   // finding all th elements in the thead of advance table
@@ -126,6 +166,25 @@
     console.log('Populating table...');
     const rows = dataSlice.data.map((data) => {
       const tr = document.createElement('tr');
+
+      // add checkbox in first cell
+      const templateClone = checkboxTemplate.content.cloneNode(true);
+      let td = templateClone.querySelector('td');
+
+      // get checkbox from td
+      const checkbox = td.querySelector('input[type=checkbox]');
+      // populate row's id to checkbox's data attribute
+      checkbox.dataset['rowId'] = data.id;
+      checkbox.id = `row-${data.id}`;
+
+      // check if the row was previously selected or not
+      // if it was checked the then mark it as checked
+      if (selectedRowsState.has(data.id)) {
+        checkbox.checked = true;
+      }
+      checkbox.addEventListener('change', handleRowSelect);
+
+      tr.appendChild(td);
 
       Object.entries(data).forEach(([_col, value]) => {
         const td = document.createElement('td');
@@ -280,5 +339,15 @@
       // throw error for unsupported type
       throw new Error('no sorting on objects');
     });
+  }
+
+  function handleRowSelect(e) {
+    const rowId = parseInt(e.target.dataset.rowId, 10);
+    // toggle row selection
+    if (selectedRowsState.has(rowId)) {
+      selectedRowsState.delete(rowId);
+    } else {
+      selectedRowsState.add(rowId);
+    }
   }
 })();

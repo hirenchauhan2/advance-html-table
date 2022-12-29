@@ -57,6 +57,7 @@ td {
   z-index: 100;
 }
 
+#advance-table thead > tr > td,
 #advance-table thead > tr > th {
   text-transform: uppercase;
   background-color: rgba(247, 249, 252, 0.8);

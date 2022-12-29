@@ -22,6 +22,14 @@
       <table width="100%" cellspacing="0" id="advance-table">
         <thead>
           <tr>
+            <!-- checkbox -->
+            <td>
+              <input
+                type="checkbox"
+                title="select all rows of current page"
+                id="selectAllRows"
+              />
+            </td>
             <th data-col="id">
               <div class="th-container">
                 <span>ID</span>
@@ -194,6 +202,12 @@
         </div>
       </div>
     </div>
+
+    <template id="cell-checkbox">
+      <td>
+        <input class="checkbox" type="checkbox" />
+      </td>
+    </template>
     <script async src="app.js"></script>
   </body>
 </html>
